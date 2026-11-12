@@ -58,6 +58,8 @@ test("meta is a plain JSON literal the marketplace can read", () => {
   assert.match(meta.key, /^[a-z0-9]+_ollama_rerank$/);
   assert.ok(meta.key.length <= 30);
   assert.equal(meta.channelTypes, undefined);
+  // new-api rc.50's channel type picker reads plugin.models.length and crashes on null.
+  assert.ok(Array.isArray(meta.models) && meta.models.length > 0);
   assert.deepEqual(meta.relay.map((route) => route.incoming_path), ["/v1/rerank", "/v1/models"]);
 });
 

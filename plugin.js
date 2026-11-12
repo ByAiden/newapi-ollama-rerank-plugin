@@ -26,6 +26,7 @@ export const meta = {
   },
   "icon": "Ollama",
   "baseUrl": "http://127.0.0.1:11434",
+  "models": ["dengcao/Qwen3-Reranker-8B:Q8_0", "qwen3-embedding:8b"],
   "relay": [
     { "incoming_path": "/v1/rerank", "upstream_path": "/api/embed", "converter": "plugin" },
     { "incoming_path": "/v1/models", "upstream_path": "/v1/models" }
