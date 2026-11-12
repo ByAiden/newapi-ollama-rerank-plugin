@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/",
+    "live": "node scripts/live-test.mjs"
+  }
+}
