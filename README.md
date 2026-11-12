@@ -20,7 +20,7 @@ Requires new-api v1.0.0-rc.50 or later (provider plugins) and an Ollama version 
 1. Install the plugin, then add a channel of type Task Plugin and bind it to this plugin.
 2. Base URL: the Ollama origin without `/v1`, for example `http://127.0.0.1:11434` or a private tailnet address. The default is `http://127.0.0.1:11434`.
 3. Key: any value. Ollama does not check keys; protect the server with network access rules or an authenticating proxy.
-4. Models: the exact Ollama model names, for example `qwen3-embedding:8b` or a pulled Qwen3-Reranker GGUF. Use model mapping to publish a friendlier name.
+4. Models: the exact Ollama model names, for example `dengcao/Qwen3-Reranker-8B:Q8_0` (the plugin's default) or an embedding model such as `qwen3-embedding:8b`. Use model mapping to publish a friendlier name. A model appears on the pricing pages only after an enabled channel lists it.
 5. Channel settings:
    - Scoring mode: Auto (default) uses reranker logprobs when the model name contains `rerank`, otherwise embedding cosine similarity. Pick a mode explicitly when the name does not say.
    - Task instruction: the instruction given to Qwen3 rerankers and to Qwen3 embedding queries.
@@ -38,6 +38,7 @@ Requires new-api v1.0.0-rc.50 or later (provider plugins) and an Ollama version 
 The reply carries `usage.total_tokens`, the sum of `prompt_eval_count` and `eval_count` Ollama reported for every upstream request of the call (cached prompt tokens included). new-api bills it as prompt tokens at the model's price:
 
 - Per token: set a model ratio for each model name. Ratio 1 bills 1 quota unit per token, which is USD 2 per million tokens at the default quota rate.
+- Expression: `tier("base", p * 0.114)` charges USD 0.114 per million tokens; replace 0.114 with your price per million tokens.
 - Per call: set a fixed model price instead; the token count still appears in the log.
 
 Failed calls, rejected requests and upstream errors are not billed.
