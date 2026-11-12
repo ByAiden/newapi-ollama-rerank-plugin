@@ -1,11 +1,17 @@
 ---
 changelogVersion: 1
 plugin: byaiden_ollama_rerank
-version: 1.0.0
+version: 1.0.1
 locale: "zh-CN"
 ---
 
 # Changelog
+
+## [1.0.1]
+
+### Fixed
+
+- 声明默认模型列表，修复 new-api 创建渠道页面崩溃；默认只列重排序模型，避免普通渠道上的向量模型被本插件占用。
 
 ## [1.0.0]
 

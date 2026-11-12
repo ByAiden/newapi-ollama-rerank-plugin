@@ -18,7 +18,7 @@ export const meta = {
   "apiVersion": 1,
   "key": "byaiden_ollama_rerank",
   "name": { "en": "Ollama Rerank", "zh": "Ollama 重排序" },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": { "name": "ByAiden", "url": "https://github.com/ByAiden" },
   "description": {
     "en": "Rerank endpoint for self-hosted Ollama models with token billing",
@@ -26,7 +26,7 @@ export const meta = {
   },
   "icon": "Ollama",
   "baseUrl": "http://127.0.0.1:11434",
-  "models": ["dengcao/Qwen3-Reranker-8B:Q8_0", "qwen3-embedding:8b"],
+  "models": ["dengcao/Qwen3-Reranker-8B:Q8_0"],
   "relay": [
     { "incoming_path": "/v1/rerank", "upstream_path": "/api/embed", "converter": "plugin" },
     { "incoming_path": "/v1/models", "upstream_path": "/v1/models" }
