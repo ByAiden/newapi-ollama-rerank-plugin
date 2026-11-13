@@ -16,9 +16,9 @@
 
 export const meta = {
   "apiVersion": 1,
-  "key": "byaiden_ollama_rerank",
+  "key": "ollama-rerank",
   "name": { "en": "Ollama Rerank", "zh": "Ollama 重排序" },
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": { "name": "ByAiden", "url": "https://github.com/ByAiden" },
   "description": {
     "en": "Rerank endpoint for self-hosted Ollama models with token billing",

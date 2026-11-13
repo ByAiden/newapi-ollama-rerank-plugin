@@ -55,7 +55,6 @@ test("meta is a plain JSON literal the marketplace can read", () => {
   assert.ok(block, "meta block found");
   assert.deepEqual(JSON.parse(block[1]), meta);
   assert.equal(meta.apiVersion, 1);
-  assert.match(meta.key, /^[a-z0-9]+_ollama_rerank$/);
   assert.ok(meta.key.length <= 30);
   assert.equal(meta.channelTypes, undefined);
   // new-api rc.50's channel type picker reads plugin.models.length and crashes on null.

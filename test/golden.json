@@ -1,0 +1,133 @@
+{
+  "cases": [
+    {
+      "name": "embedding model uses one /api/embed call",
+      "hook": "convertRequest",
+      "args": [
+        {
+          "baseUrl": "http://127.0.0.1:11434",
+          "path": "/v1/rerank",
+          "config": {}
+        },
+        {
+          "body": {
+            "model": "qwen3-embedding:8b",
+            "query": "capital of China?",
+            "documents": [
+              "Paris is in France.",
+              "Beijing is the capital of China."
+            ],
+            "top_n": 1
+          },
+          "model": "qwen3-embedding:8b",
+          "stream": false
+        }
+      ],
+      "expected": {
+        "path": "/api/embed",
+        "method": "POST",
+        "stream": false,
+        "body": {
+          "model": "qwen3-embedding:8b",
+          "input": [
+            "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery:capital of China?",
+            "Paris is in France.",
+            "Beijing is the capital of China."
+          ],
+          "truncate": true,
+          "options": {
+            "temperature": 0
+          }
+        },
+        "state": {
+          "mode": "embedding",
+          "model": "qwen3-embedding:8b",
+          "query": "capital of China?",
+          "instruction": "Given a web search query, retrieve relevant passages that answer the query",
+          "numCtx": 0,
+          "documents": [
+            "Paris is in France.",
+            "Beijing is the capital of China."
+          ],
+          "originals": null,
+          "topN": 1,
+          "next": 0,
+          "scores": [],
+          "promptTokens": 0,
+          "completionTokens": 0
+        }
+      }
+    },
+    {
+      "name": "embedding reply is ranked and billed",
+      "hook": "convertResponse",
+      "args": [
+        {
+          "baseUrl": "http://127.0.0.1:11434",
+          "path": "/v1/rerank",
+          "config": {},
+          "state": {
+            "mode": "embedding",
+            "model": "qwen3-embedding:8b",
+            "query": "capital of China?",
+            "instruction": "Given a web search query, retrieve relevant passages that answer the query",
+            "numCtx": 0,
+            "documents": [
+              "Paris is in France.",
+              "Beijing is the capital of China."
+            ],
+            "originals": null,
+            "topN": 1,
+            "next": 0,
+            "scores": [],
+            "promptTokens": 0,
+            "completionTokens": 0
+          }
+        },
+        {
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": "{\"embeddings\":[[1,0],[0,1],[1,0.1]],\"prompt_eval_count\":20}"
+        }
+      ],
+      "expected": {
+        "body": {
+          "model": "qwen3-embedding:8b",
+          "results": [
+            {
+              "index": 1,
+              "relevance_score": 0.9950371902099893
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 20,
+            "total_tokens": 20
+          }
+        }
+      }
+    },
+    {
+      "name": "empty documents are rejected",
+      "hook": "convertRequest",
+      "args": [
+        {
+          "baseUrl": "http://127.0.0.1:11434",
+          "path": "/v1/rerank",
+          "config": {}
+        },
+        {
+          "body": {
+            "model": "m",
+            "query": "q",
+            "documents": []
+          },
+          "model": "m",
+          "stream": false
+        }
+      ],
+      "expectedError": "documents"
+    }
+  ]
+}
